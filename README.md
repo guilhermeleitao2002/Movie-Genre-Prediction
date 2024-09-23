@@ -1,2 +1,2 @@
 # LN-proj
-Project for the Natural Language course@IST 2024/2025
+Project for the Natural Language Processing course@IST 2024/2025
