@@ -16,17 +16,17 @@ def load_data(filepath):
 # Preprocess the data
 def preprocess_data(data):
     # Extract relevant columns (title, plot, genre)
-    data = data[['title','director', 'plot', 'genre']].copy()
+    data = data[['title', 'director', 'plot', 'genre']].copy()
     data.dropna(inplace=True)
 
     # Combine plot and director into a single feature (text)
-    data['plot_director'] = data['plot'] + ' ' + data['director']
+    data['plot_title_director'] = data['plot'] + ' ' + data['title']+ ' ' + data['director']
 
     return data
 
 # Split data into training and test sets
 def split_data(data):
-    X_train, X_test, y_train, y_test = train_test_split(data['plot_director'], data['genre'], test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(data['plot_title_director'], data['genre'], test_size=0.2, random_state=42)
     return X_train, X_test, y_train, y_test
 
 # Feature extraction using TF-IDF Vectorizer
