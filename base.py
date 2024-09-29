@@ -7,6 +7,19 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
+from nltk.stem import WordNetLemmatizer
+import nltk
+nltk.download('wordnet')
+
+# Lemmatizer function
+lemmatizer = WordNetLemmatizer()
+
+def lemmatize_text(text):
+    return ' '.join([lemmatizer.lemmatize(word) for word in text.split()])
+
+# Use n-grams in TfidfVectorizer
+vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', ngram_range=(1, 2))
+
 
 # Load dataset
 def load_data(filepath):
@@ -20,18 +33,20 @@ def preprocess_data(data):
     data.dropna(inplace=True)
 
     # Combine plot and director into a single feature (text)
-    data['plot_title_director'] = data['plot'] + ' ' + data['title']+ ' ' + data['director']
+    data['plot_director'] =data['plot']+ ' ' + data['director']
+    
+    data['plot_director'] = data['plot_director'].apply(lemmatize_text)
 
     return data
 
 # Split data into training and test sets
 def split_data(data):
-    X_train, X_test, y_train, y_test = train_test_split(data['plot_title_director'], data['genre'], test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(data['plot_director'], data['genre'], test_size=0.2, random_state=42)
     return X_train, X_test, y_train, y_test
 
 # Feature extraction using TF-IDF Vectorizer
 def extract_features(X_train, X_test):
-    vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
+    vectorizer = TfidfVectorizer(max_features=5000, stop_words ='english')
     X_train_tfidf = vectorizer.fit_transform(X_train)
     X_test_tfidf = vectorizer.transform(X_test)
     return X_train_tfidf, X_test_tfidf, vectorizer
