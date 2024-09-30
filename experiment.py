@@ -54,7 +54,7 @@ def run_experiment(max_features, ngram_range, combine_fields):
     duration = round(time() - start_time, 2)
 
     # Print how long in seconds it took to run the experiment
-    print(f"Finished. Took {duration} seconds. Naive Bayes Accuracy: {colored(nb_accuracy:.2f + '%', attrs=['bold'])}, SVM Accuracy: {colored(svm_accuracy:.2f + '%', attrs=['bold'])}")
+    print(f"Finished. Took {duration} seconds. Naive Bayes Accuracy: {colored(f'{nb_accuracy:.2f}%', attrs=['bold'])}, SVM Accuracy: {colored(f'{svm_accuracy:.2f}%', attrs=['bold'])}")
 
     return nb_accuracy, svm_accuracy
 
