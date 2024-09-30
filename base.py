@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.11
-from argparse import ArgumentParser
+
+import argparse
 from pandas import read_csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -8,8 +9,9 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix
 from joblib import dump, load
 from nltk.stem import WordNetLemmatizer
-#import nltk
-#nltk.download('wordnet')
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 
 
 # Lemmatize the text
@@ -49,7 +51,7 @@ def split_data(data):
 
 # Feature extraction using TF-IDF Vectorizer
 def extract_features(X_train, X_test, max_features, ngram_range):
-    vectorizer = TfidfVectorizer(max_features=max_features, stop_words='english', ngram_range=ngram_range)
+    vectorizer = TfidfVectorizer(max_features=max_features, stop_words=stop_words, ngram_range=ngram_range)
     X_train_tfidf = vectorizer.fit_transform(X_train)
     X_test_tfidf = vectorizer.transform(X_test)
     return X_train_tfidf, X_test_tfidf, vectorizer
@@ -97,16 +99,16 @@ def predict_genre(model, vectorizer, input_file, output_file):
 
 
 # Main function to run the program
-if __name__ == '__main__':
+if __name__ == '__main__': 
     # Parse command-line arguments
-    parser = ArgumentParser(description="Train and evaluate a model for genre prediction based on movie plots.")
+    parser = argparse.ArgumentParser(description="Train and evaluate a model for genre prediction based on movie plots.")
     parser.add_argument('--train_filepath', type=str, default='train.txt', help='Filepath for the training data.')
     parser.add_argument('--test_filepath', type=str, default='test_no_labels.txt', help='Filepath for the test data (without labels).')
     parser.add_argument('--results_filepath', type=str, default='results.txt', help='Filepath to save the results.')
     parser.add_argument('--max_features', '-f', type=int, default=5000, help='Maximum number of features for the TF-IDF vectorizer.')
     parser.add_argument('--ngram_range', '-n', type=str, default='1,2', help='N-gram range for the TF-IDF vectorizer, provided as "min_n,max_n".')
     parser.add_argument('--lemma', '-l', type=bool, default=True, help='Whether to lemmatize the text data.')
-    parser.add_argument('--combine_fields', '-c', type=str, default='from,director', help='Comma-separated fields to combine with the plot (e.g., "director" or "from,director,title").')
+    parser.add_argument('--combine_fields', '-c', type=str, default='from', help='Comma-separated fields to combine with the plot (e.g., "from,director,title").')
     parser.add_argument('--stop_words', '-s', type=str, default='english', help='Stop words for the TF-IDF vectorizer (e.g., "english" or "the,is,and").')
 
     args = parser.parse_args()
@@ -117,10 +119,11 @@ if __name__ == '__main__':
     # Parse combine_fields as a list of field names
     combine_fields = args.combine_fields.split(',')
 
-    # Parse stop_words as a list ONLY if a comma-separated string is provided
-    stop_words = args.stop_words.split(',')
-    if len(stop_words) == 1:
-        stop_words = args.stop_words
+    # Convert the stop words string into a list (if not using 'english')
+    if args.stop_words != 'english':
+        stop_words = args.stop_words.split(',')
+    else:
+        stop_words = 'english'
 
     # Load and preprocess the data
     data = load_data(args.train_filepath)
@@ -142,7 +145,8 @@ if __name__ == '__main__':
     print(f"Naive Bayes Accuracy: {nb_accuracy * 100:.2f}%")
     print(f"SVM Accuracy: {svm_accuracy * 100:.2f}%")
     
-    best_model = nb_model if nb_accuracy > svm_accuracy else svm_model
+    # Choose the better model (for this example, we assume SVM is better)
+    best_model = svm_model
     save_model(best_model, vectorizer, 'best_model.pkl', 'vectorizer.pkl')
     
     # Predict genres for the test file and save results
