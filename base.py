@@ -1,15 +1,15 @@
 #!/usr/bin/env python3.11
 
-import pandas as pd
+from pandas import read_csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix
-import joblib
+from joblib import dump, load
 from nltk.stem import WordNetLemmatizer
-import nltk
-nltk.download('wordnet')
+#import nltk
+#nltk.download('wordnet')
 
 # Lemmatizer function
 lemmatizer = WordNetLemmatizer()
@@ -23,25 +23,25 @@ vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', ngram_rang
 
 # Load dataset
 def load_data(filepath):
-    data = pd.read_csv(filepath, sep='\t', names=['title', 'from', 'genre', 'director', 'plot'])
+    data = read_csv(filepath, sep='\t', names=['title', 'from', 'genre', 'director', 'plot'])
     return data
 
 # Preprocess the data
 def preprocess_data(data):
     # Extract relevant columns (title, plot, genre)
-    data = data[['title', 'director', 'plot', 'genre']].copy()
+    data = data[['title', 'from', 'director', 'plot', 'genre']].copy()
     data.dropna(inplace=True)
 
     # Combine plot and director into a single feature (text)
-    data['plot_director'] =data['plot']+ ' ' + data['director']
+    data['plot_from'] = data['plot'] + ' ' + data['from']
     
-    data['plot_director'] = data['plot_director'].apply(lemmatize_text)
+    data['plot_from'] = data['plot_from'].apply(lemmatize_text)
 
     return data
 
 # Split data into training and test sets
 def split_data(data):
-    X_train, X_test, y_train, y_test = train_test_split(data['plot_director'], data['genre'], test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(data['plot_from'], data['genre'], test_size=0.2, random_state=42)
     return X_train, X_test, y_train, y_test
 
 # Feature extraction using TF-IDF Vectorizer
@@ -72,18 +72,18 @@ def evaluate_model(model, X_test_tfidf, y_test):
 
 # Save the best model
 def save_model(model, vectorizer, model_path, vectorizer_path):
-    joblib.dump(model, model_path)
-    joblib.dump(vectorizer, vectorizer_path)
+    dump(model, model_path)
+    dump(vectorizer, vectorizer_path)
 
 # Load the model and vectorizer
 def load_model(model_path, vectorizer_path):
-    model = joblib.load(model_path)
-    vectorizer = joblib.load(vectorizer_path)
+    model = load(model_path)
+    vectorizer = load(vectorizer_path)
     return model, vectorizer
 
 # Predict the genre for new movie plots
 def predict_genre(model, vectorizer, input_file, output_file):
-    data = pd.read_csv(input_file, sep='\t', names=['title', 'from', 'director', 'plot'])
+    data = read_csv(input_file, sep='\t', names=['title', 'from', 'director', 'plot'])
     plots = data['plot']
     plot_vectors = vectorizer.transform(plots)
     predicted_genres = model.predict(plot_vectors)
