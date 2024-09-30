@@ -5,11 +5,12 @@ import matplotlib
 matplotlib.use('Agg')  # Use the non-interactive Agg backend
 import matplotlib.pyplot as plt
 from time import time
+from termcolor import colored
 
 # Define argument ranges for experimentation
 max_features_values = [4000, 5000, 6000]
 ngram_ranges = [(1, 2), (1, 3)]
-combine_fields_values = ['from,director']
+combine_fields_values = ['from,director', 'title']
 
 # Store results for plotting
 nb_accuracies = []
@@ -21,7 +22,8 @@ def run_experiment(max_features, ngram_range, combine_fields):
     # Run base.py with different arguments
     ngram_range_str = f"{ngram_range[0]},{ngram_range[1]}"
 
-    print(f"Running experiment with max_features={max_features}, ngram_range=({ngram_range_str}) and combined_fields={combine_fields}...")
+    # Print the current experiment settings in bold
+    print(f"Running experiment with {colored('max_features', 'green')}={colored(max_features, attrs=['bold'])}, {colored('ngram_range', 'blue')}=({colored(ngram_range_str, attrs=['bold'])}) and {colored('combine_fields', 'red')}={colored(combine_fields, attrs=['bold'])}")
 
     # Measure the time it takes to run the experiment
     start_time = time()
@@ -52,7 +54,7 @@ def run_experiment(max_features, ngram_range, combine_fields):
     duration = round(time() - start_time, 2)
 
     # Print how long in seconds it took to run the experiment
-    print(f"Finished. Took {duration} seconds.")
+    print(f"Finished. Took {duration} seconds. Naive Bayes Accuracy: {colored(nb_accuracy:.2f + '%', attrs=['bold'])}, SVM Accuracy: {colored(svm_accuracy:.2f + '%', attrs=['bold'])}")
 
     return nb_accuracy, svm_accuracy
 
@@ -61,7 +63,7 @@ for combine_fields in combine_fields_values:
     for max_features in max_features_values:
         for ngram_range in ngram_ranges:
             # Label for the current experiment
-            label = f"max_features={max_features}, ngram_range={ngram_range}, combine_fields={combine_fields}"
+            label = f"max_features={max_features}\nngram_range={ngram_range}\ncombine_fields={combine_fields}"
             experiment_labels.append(label)
 
             # Run the experiment and get accuracies
@@ -77,15 +79,14 @@ print("All experiments completed. Plotting results...")
 plt.figure(figsize=(12, 6))
 
 # Adjust the labels to include newlines for better readability
-formatted_labels = [label.replace(', ', '\n') for label in experiment_labels]
-x = range(len(formatted_labels))
+x = range(len(experiment_labels))
 
 # Plot Naive Bayes and SVM accuracies with better styling
 plt.plot(x, nb_accuracies, label="Naive Bayes Accuracy", marker='o', linestyle='-', color='blue', markersize=8)
 plt.plot(x, svm_accuracies, label="SVM Accuracy", marker='x', linestyle='--', color='orange', markersize=8)
 
 # Customize plot appearance
-plt.xticks(x, formatted_labels, rotation=45, ha='right', fontsize=10)
+plt.xticks(x, experiment_labels, rotation=45, ha='right', fontsize=10)
 plt.yticks(fontsize=10)
 plt.xlabel("Experiments", fontsize=12, labelpad=15)
 plt.ylabel("Accuracy (%)", fontsize=12, labelpad=15)
