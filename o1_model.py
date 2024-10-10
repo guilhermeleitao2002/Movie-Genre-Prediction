@@ -121,8 +121,7 @@ def extract_features(X_train, X_test, max_features, ngram_range):
         ngram_range=ngram_range,
         sublinear_tf=True,
         norm='l2',
-        min_df=5,
-        stop_words='english'
+        min_df=5
     )
     X_train_tfidf = vectorizer.fit_transform(X_train)
     X_test_tfidf = vectorizer.transform(X_test)
