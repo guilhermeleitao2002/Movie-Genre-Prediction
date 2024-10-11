@@ -1,4 +1,4 @@
-#copy do chat
+#copy do chatd
 
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification, Trainer, TrainingArguments
 from datasets import load_dataset
