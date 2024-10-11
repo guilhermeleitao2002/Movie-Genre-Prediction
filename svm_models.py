@@ -131,7 +131,7 @@ def extract_features(X_train, X_test, max_features, ngram_range):
 def train_svm(X_train_tfidf, y_train):
     param_grid = {
         'C': [0.1, 1, 10],
-        'kernel': ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],
+        'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
         'class_weight': ['balanced', None]
     }
     grid_search = GridSearchCV(SVC(), param_grid, cv=5, n_jobs=-1)

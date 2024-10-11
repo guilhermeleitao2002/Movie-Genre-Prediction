@@ -8,6 +8,8 @@ from pandas import read_csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.preprocessing import LabelEncoder
 from joblib import dump, load
@@ -127,17 +129,47 @@ def extract_features(X_train, X_test, max_features, ngram_range):
     X_test_tfidf = vectorizer.transform(X_test)
     return X_train_tfidf, X_test_tfidf, vectorizer
 
+
 # Train SVM with hyperparameter tuning
 def train_svm(X_train_tfidf, y_train):
     param_grid = {
         'C': [0.1, 1, 10],
-        'kernel': ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],
+        'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
         'class_weight': ['balanced', None]
     }
     grid_search = GridSearchCV(SVC(), param_grid, cv=5, n_jobs=-1)
     grid_search.fit(X_train_tfidf, y_train)
     best_model = grid_search.best_estimator_
     print(f"Best SVM Parameters: {grid_search.best_params_}")
+    return best_model
+
+# Train Multinomial NB with hyperparameter tuning
+def train_MultinomialNB(X_train_tfidf, y_train):
+    param_grid = {
+        'alpha': [0.1, 0.5, 1.0, 1.5, 2.0],  # Smoothing parameter
+        'fit_prior': [True, False],           # Whether to learn class prior probabilities
+    }
+    
+    grid_search = GridSearchCV(MultinomialNB(), param_grid, cv=5, n_jobs=-1)
+    grid_search.fit(X_train_tfidf, y_train)
+    
+    best_model = grid_search.best_estimator_
+    print(f"Best Multinomial NB Parameters: {grid_search.best_params_}")
+    
+    return best_model
+
+# Train train_Gaussian NB with hyperparameter tuning
+def train_GaussianNB(X_train, y_train):
+    param_grid = {
+        'var_smoothing': [1e-9, 1e-8, 1e-7, 1e-6, 1e-5]  # Smoothing parameter
+    }
+    
+    grid_search = GridSearchCV(GaussianNB(), param_grid, cv=5, n_jobs=-1)
+    grid_search.fit(X_train, y_train)
+    
+    best_model = grid_search.best_estimator_
+    print(f"Best Gaussian NB Parameters: {grid_search.best_params_}")
+    
     return best_model
 
 # Evaluate the model
