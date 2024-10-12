@@ -55,9 +55,6 @@ def get_wordnet_pos(tag):
     else:
         return wordnet.NOUN  # Default to noun
 
-# Lemmatize the text
-stop_words = set(stopwords.words('english'))
-
 def lemmatize_text(text):
     lemmatizer = WordNetLemmatizer()
     # Clean the text
@@ -183,7 +180,7 @@ if __name__ == '__main__':
     parser.add_argument('--results_filepath', type=str, default='results.txt', help='Filepath to save the results.')
     parser.add_argument('--max_features', '-f', type=int, default=10000, help='Maximum number of features for the TF-IDF vectorizer.')
     parser.add_argument('--ngram_range', '-n', type=str, default='1,5', help='N-gram range for the TF-IDF vectorizer, provided as "min_n,max_n".')
-    parser.add_argument('--lemma', '-l', action='store_true', default=True, help='Whether to lemmatize the text data.')
+    parser.add_argument('--lemma', '-l', action='store_true', default=False, help='Whether to lemmatize the text data.')
     parser.add_argument('--combine_fields', '-c', type=str, default='from,director,title', help='Comma-separated fields to combine with the plot (e.g., "from,director,title").')
     parser.add_argument('--stop_words', '-s', type=str, default='english', help='Stop words for the TF-IDF vectorizer (e.g., "english" or "the,is,and").')
     args = parser.parse_args()
@@ -198,7 +195,7 @@ if __name__ == '__main__':
     if args.stop_words != 'english':
         stop_words = args.stop_words.split(',')
     else:
-        stop_words = 'english'
+        stop_words = stop_words = set(stopwords.words('english'))
 
     # Load and preprocess the data
     data = load_data(args.train_filepath)
