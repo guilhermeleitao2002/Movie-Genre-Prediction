@@ -6,13 +6,6 @@ Naive Bayes Accuracy: 53.70%
 SVM Accuracy: 65.32%
 ```
 
-## From & Plot + Lemmatization + Stopwords("and,his,in,is,of,the,to,with")
-### Results
-```
-Naive Bayes Accuracy: 59.54%
-SVM Accuracy: 65.61%
-```
-
 ## List of experiments and respective results with lemmatization and stopwords 'english'
 ```	
 Running experiment with max_features=4000, ngram_range=(1,2) and combine_fields=from,director,title
@@ -71,4 +64,20 @@ Running experiment with max_features=5000, ngram_range=(1,2) and combine_fields=
 Finished. Took 46.07 seconds. Naive Bayes Accuracy: 59.54%, SVM Accuracy: 65.51%
 Running experiment with max_features=5000, ngram_range=(1,3) and combine_fields=from,director
 Finished. Took 51.76 seconds. Naive Bayes Accuracy: 59.48%, SVM Accuracy: 65.26%
+```
+
+## List of experiments and respective results with stop words filtered by DF >= 50%
+```
+max_features = 10000, ngram_range = (1, 3), combine_fields=from,director,title
+Vectorizers trained: CountVectorizer, TfidfVectorizer
+
+
+Accuracy SVM_count: 61.61%
+Accuracy SVM_tfidf: 60.62%
+
+Accuracy MultinomialNB_count: 63.35%
+Accuracy MultinomialNB_tfidf: 62.36%
+
+Accuracy GaussianNB_count: 43.23%
+Accuracy GaussianNB_tfidf: 46.46%
 ```
