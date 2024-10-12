@@ -72,12 +72,27 @@ max_features = 10000, ngram_range = (1, 3), combine_fields=from,director,title
 Vectorizers trained: CountVectorizer, TfidfVectorizer
 
 
-Accuracy SVM_count: 61.61%
-Accuracy SVM_tfidf: 60.62%
+Accuracy SVM_count: 61.24%
+Accuracy SVM_tfidf: 69.81%
+
+Accuracy MultinomialNB_count: 63.48%
+Accuracy MultinomialNB_tfidf: 64.72%
+
+Accuracy GaussianNB_count: 43.60%
+Accuracy GaussianNB_tfidf: 43.60%
+```
+
+## List of experiments and respective results with stop words='english'
+```
+max_features = 10000, ngram_range = (1, 3), combine_fields=from,director,title
+Vectorizers trained: CountVectorizer, TfidfVectorizer
+
+Accuracy SVM_count: 61.24%
+Accuracy SVM_tfidf: 70.19%
 
 Accuracy MultinomialNB_count: 63.35%
-Accuracy MultinomialNB_tfidf: 62.36%
+Accuracy MultinomialNB_tfidf: 65.47%
 
-Accuracy GaussianNB_count: 43.23%
-Accuracy GaussianNB_tfidf: 46.46%
+Accuracy GaussianNB_count: 42.48%
+Accuracy GaussianNB_tfidf: 42.98%
 ```
