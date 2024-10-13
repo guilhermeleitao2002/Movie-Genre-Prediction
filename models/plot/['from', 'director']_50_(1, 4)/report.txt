@@ -1,0 +1,15 @@
+              precision    recall  f1-score   support
+
+      action       0.61      0.64      0.62       106
+   animation       0.94      0.98      0.96       107
+      comedy       0.68      0.66      0.67       119
+       crime       0.80      0.84      0.82       108
+       drama       0.61      0.66      0.64       168
+      horror       0.92      0.82      0.87       111
+     romance       0.68      0.53      0.59        89
+      sci-fi       0.98      0.99      0.98        85
+     western       0.90      0.93      0.91        83
+
+    accuracy                           0.77       976
+   macro avg       0.79      0.78      0.78       976
+weighted avg       0.77      0.77      0.77       976
