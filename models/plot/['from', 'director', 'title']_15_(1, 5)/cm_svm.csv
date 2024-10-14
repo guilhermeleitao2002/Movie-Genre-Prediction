@@ -1,0 +1,10 @@
+,action,animation,comedy,crime,drama,horror,romance,sci-fi,western
+action,70,2,3,9,8,5,7,0,2
+animation,2,42,2,0,5,0,2,1,0
+comedy,4,3,75,2,24,1,10,0,0
+crime,8,0,6,32,6,0,1,0,1
+drama,8,1,14,10,120,3,11,0,1
+horror,2,0,0,2,11,93,1,1,1
+romance,9,0,13,2,25,0,40,0,0
+sci-fi,2,2,0,0,0,5,0,12,0
+western,0,0,0,2,0,0,0,0,81
