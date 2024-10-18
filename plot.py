@@ -7,7 +7,7 @@ from os import makedirs
 plt.switch_backend('Agg')
 
 
-def plot(size, labels, accuracies, x_label, y_label, title, filename, mark, c):
+def plot(size, labels, accuracies, x_label, y_label, filename, mark, c):
     # Plot results
     plt.figure(figsize=size)
 
@@ -22,7 +22,6 @@ def plot(size, labels, accuracies, x_label, y_label, title, filename, mark, c):
     plt.yticks(fontsize=10)
     plt.xlabel(x_label, fontsize=12, labelpad=15)
     plt.ylabel(y_label, fontsize=12, labelpad=15)
-    plt.title(title, fontsize=14, pad=20)
 
     # Add gridlines for better readability
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
@@ -40,10 +39,9 @@ def main():
     # Plot the SVM accuracy vs. threshold
     plot(size=(8, 4),
         labels=[0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 1.00],
-        accuracies=[71.43, 70.43, 70.19, 70.06, 70.43, 69.57, 67.20],
+        accuracies=[70.19, 70.06, 69.94, 69.44, 69.57, 68.94, 66.71],
         x_label='Threshold',
         y_label='Accuracy (%)',
-        title='SVM Accuracy vs. Threshold',
         filename='threshold.png',
         mark='o',
         c='orange')
@@ -51,10 +49,9 @@ def main():
     # Plot the SVM accuracy vs. n-gram range
     plot(size=(8, 4),
         labels=[(1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9)],
-        accuracies=[71.18, 70.43, 70.68, 71.43, 70.43, 70.43, 70.56],
+        accuracies=[70.19, 69.94, 70.31, 70.19, 70.19, 70.06, 70.19],
         x_label='N-gram Range',
         y_label='Accuracy (%)',
-        title='SVM Accuracy vs. N-gram Range',
         filename='ngram.png',
         mark='o',
         c='blue')

@@ -61,7 +61,7 @@ western
 comedy
 action
 horror
-crime
+action
 comedy
 drama
 comedy
@@ -113,7 +113,7 @@ western
 western
 crime
 horror
-drama
+crime
 crime
 drama
 romance
@@ -140,7 +140,7 @@ action
 comedy
 western
 drama
-drama
+comedy
 western
 romance
 comedy
@@ -228,7 +228,7 @@ crime
 action
 crime
 crime
-comedy
+animation
 action
 comedy
 horror
@@ -245,7 +245,7 @@ drama
 horror
 drama
 comedy
-comedy
+drama
 horror
 animation
 drama
@@ -259,7 +259,7 @@ horror
 drama
 action
 drama
-action
+comedy
 action
 comedy
 crime
@@ -278,7 +278,7 @@ horror
 romance
 drama
 horror
-action
+drama
 horror
 horror
 drama
@@ -289,14 +289,14 @@ horror
 horror
 drama
 drama
-horror
+animation
 action
 western
 comedy
 comedy
 horror
 action
-drama
+comedy
 horror
 action
 drama
@@ -380,7 +380,7 @@ comedy
 drama
 horror
 horror
-action
+animation
 western
 action
 horror
@@ -389,7 +389,7 @@ animation
 animation
 romance
 comedy
-action
+drama
 action
 horror
 comedy
